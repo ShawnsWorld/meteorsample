@@ -1,17 +1,34 @@
 @import '{}/imports/ui/common/slider.import';
 
+@import 'panel/border.import';
+
 .widget
   .canvas-background
     padding 5px
   .prop-panel
     width 100%
+    padding-left 10em
+    position relative
     &>div
       display inline-block
     .menu
-      width 10em
+      width 8em
+      position absolute
+      left 0; top 0
       .menu-item
         position relative
         .switch
           position absolute; top 0; right 0;font-size 0.8em
     .content
-      width: calc(100% - 10em)
+      width 100%
+      height 100%
+      .prop-group
+        position relative
+        padding-left 4em
+        margin-bottom 10px
+        label
+          position absolute
+          left 0; top 0;
+          width 4em
+        &>div
+          width calc(100%)

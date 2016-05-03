@@ -20,6 +20,7 @@
     "react-addons-pure-render-mixin": "^15.0.1",
     "react-addons-shallow-compare": "^15.0.1",
     "react-bootstrap": "^0.29.2",
+    "react-color": "^2.0.0",
     "react-dom": "^15.0.1",
     "react-medium-editor": "^1.6.3",
     "react-motion": "^0.4.3",

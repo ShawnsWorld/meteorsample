@@ -6,7 +6,7 @@ import Border from './panel/Border';
 export default class Panel extends Component {
     render() {
         return (
-            <div className='row prop-panel'>
+            <div className='prop-panel'>
                 <div className='menu'>
                     <div className="list-group">
                         <div className="list-group-item active">
