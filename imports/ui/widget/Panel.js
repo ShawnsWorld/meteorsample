@@ -5,6 +5,7 @@ import Border from './panel/Border';
 
 export default class Panel extends Component {
     render() {
+        let {panelStatus, styles} = this.props.editingWidget;
         return (
             <div className='prop-panel'>
                 <div className='menu'>
@@ -28,7 +29,7 @@ export default class Panel extends Component {
                     </div>
                 </div>
                 <div className='content'>
-                    <Border panelStatus={this.props.panelStatus} styles={this.props.styles}/>
+                    <Border panelStatus={this.props.panelStatus} styles={this.props.styles} actions={this.props.actions.border}/>
                 </div>
             </div>
         )

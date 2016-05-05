@@ -6,6 +6,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import { EditingWidgets } from '../../api/editingWidgets';
 
+import actions from './actions';
 import defaultProps from './DefaultProps';
 import CanvasBackground from './CanvasBackground';
 import Canvas from './Canvas';
@@ -15,12 +16,14 @@ import Panel from './Panel';
 class Widget extends Component {
     constructor(props) {
         super(props);
-        console.log(props)
     }
     componentWillReceiveProps(props) {
-        console.log(props)
     }
     render() {
+        console.log(this.props.editingWidget)
+        if (this.props.editingWidget == null)
+            return (<div className='widget'/>);
+
         let {panelStatus, styles} = this.props.editingWidget;
         return (
             <div className='widget'>
@@ -33,7 +36,7 @@ class Widget extends Component {
                             <Canvas panelStatus={panelStatus} styles={styles}/>
                         </CanvasBackground>
                         <div className="well">
-                            <Panel panelStatus={panelStatus} styles={styles}/>
+                            <Panel actions={actions} editingWidget={this.props.editingWidget}/>
                         </div>
                     </div>
                 </div>
@@ -43,10 +46,21 @@ class Widget extends Component {
 }
 
 export default createContainer(() => {
-    Meteor.subscribe('editingWidget');
-    let editingWidget = EditingWidgets.findOne({userId: Meteor.userId()});
+    let editingWidget;
+    if (Meteor.user()) {
+        Meteor.subscribe('editingWidget', {
+            onReady(){
+                let existing = EditingWidgets.findOne({userId: Meteor.userId()});
+                if (existing == null) {
+                    let result= Meteor.call('editingWidgets.save', defaultProps);
+                }
+            }
+        });
+    }
+    let a = EditingWidgets.find({userId: Meteor.userId()}).fetch();
+    console.log(a)
     return {
-        editingWidget: editingWidget ? editingWidget : defaultProps,
+        editingWidget: EditingWidgets.find({userId: Meteor.userId()}).fetch(),
         currentUser: Meteor.user()
     };
 }, Widget);

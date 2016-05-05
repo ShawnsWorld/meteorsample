@@ -8,7 +8,9 @@ if (Meteor.isServer) {
     EditingWidgets._ensureIndex({owner:1}, {unique: true});
     // This code only runs on the server
     Meteor.publish('editingWidget', () => {
-        return EditingWidgets.find({userId: this.userId});
+        let editingWidget = EditingWidgets.find({userId: this.userId});
+        console.info(editingWidget.count())
+        return editingWidget;
     });
 }
 
@@ -20,17 +22,17 @@ Meteor.methods({
         }
         return EditingWidgets.find({userId: userId});
     },
-    'editingWidgets.merge'(state) {
-        check(state, Match.Any);
+    'editingWidgets.save'(editingWidget) {
+        check(editingWidget, Object);
 
         if (! Meteor.userId()) {
             throw new Meteor.Error('not-authorized');
         }
 
-        EditingWidgets.insert({
-            state,
-            createdAt: new Date(),
-            owner: Meteor.userId()
+        let result = EditingWidgets.upsert({owner: Meteor.userId()}, {
+            '$set': {panelStatus, styles} = editingWidget,
+            '$setOnInsert': {createdAt: new Date(), owner: Meteor.userId()}
+        }, (error, count)=>{
         });
     },
     'editingWidgets.remove'(userId) {
@@ -43,7 +45,9 @@ Meteor.methods({
 const defaultProps = Object.freeze(
     {
         panelStatus: {
-            borderExpanded: false
+            border: {
+                selected: ['all']
+            }
         },
         styles: {
             border: {

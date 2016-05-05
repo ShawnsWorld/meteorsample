@@ -2,7 +2,9 @@
 const defaultProps = Object.freeze(
     {
         panelStatus: {
-            borderExpanded: false
+            border: {
+               selected: ['all'] 
+            }
         },
         styles: {
             border: {

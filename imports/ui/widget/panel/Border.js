@@ -1,8 +1,17 @@
 'use strict';
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import Slider from '/imports/ui/common/Slider';
 import {Checkbox, Tabs, Tab, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {SketchPicker} from 'react-color';
+
+const sides = [
+    {label: '全部', name: 'all'},
+    {label: '上边', name: 'top'},
+    {label: '右边', name: 'right'},
+    {label: '下边', name: 'bottom'},
+    {label: '左边', name: 'left'},
+];
 
 const borderStyles = [{style: 'dotted', width: '1px'},
     {style: 'dashed', width: '1px'},
@@ -26,41 +35,43 @@ function getBorders(keyPrefix) {
     </button>);
 }
 
+function renderSides(onSideSelected) {
+    return sides.map((side) => {
+        return <label key={side.name} className='checkbox-inline'><input type='checkbox' value={side.name} ref={side.name}
+                                                         onChange={onSideSelected}/>{side.label}</label>
+    });
+}
+
 class Border extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onSideSelected = this.onSideSelected.bind(this);
+    }
+    onSideSelected() {
+        let selected = [];
+        sides.map((side) => {
+            if (findDOMNode(this.refs[side.name]).checked) {
+                selected.push(side.name);
+            }
+        })
+        this.props.actions.onSideSelected(selected);
+    }
     render() {
         return (
             <div className='border'>
                 <p>
-                    <Checkbox inline>
-                        全部
-                    </Checkbox>
-                    {' '}
-                    <Checkbox inline>
-                        上边
-                    </Checkbox>
-                    {' '}
-                    <Checkbox inline>
-                        右边
-                    </Checkbox>
-                    {' '}
-                    <Checkbox inline>
-                        下边
-                    </Checkbox>
-                    {' '}
-                    <Checkbox inline>
-                        左边
-                    </Checkbox>
+                    {renderSides(this.onSideSelected)}
                 </p>
-                <div className="prop-group">
-                    <label for="exampleInputName2">宽度</label>
+                <div className='prop-group'>
+                    <label for='exampleInputName2'>宽度</label>
                     <Slider min={1} max={100}/>
                 </div>
-                <div className="prop-group">
-                    <label for="exampleInputName2">形状</label>
+                <div className='prop-group'>
+                    <label for='exampleInputName2'>形状</label>
                     {getBorders('')}
                 </div>
-                <div className="prop-group">
-                    <label for="exampleInputName2">颜色</label>
+                <div className='prop-group'>
+                    <label for='exampleInputName2'>颜色</label>
                     <OverlayTrigger trigger='click' rootClose placement='left' overlay={
                         <Popover id='border-color-picker'>
                             <SketchPicker type='sketch' />
