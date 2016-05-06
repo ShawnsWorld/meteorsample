@@ -1,8 +1,7 @@
 import _ from 'lodash';
-import tinycolor from 'tinycolor2';
 
 function toCssString({width, style, color}) {
-  return style + ' ' + width + 'px ' + tinycolor(color).toRgbString();
+  return style + ' ' + width + 'px ' + color;
 }
 
 function getBorder(border, side) {

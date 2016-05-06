@@ -7,24 +7,21 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { EditingWidgets } from '../../api/editingWidgets';
 
 import actions from './actions';
-import defaultProps from './DefaultProps';
+import DefaultWidget from './DefaultWidget';
 import CanvasBackground from './CanvasBackground';
 import Canvas from './Canvas';
 import Panel from './Panel';
-
 
 class Widget extends Component {
     constructor(props) {
         super(props);
     }
-    componentWillReceiveProps(props) {
-    }
     render() {
-        console.log(this.props.editingWidget)
-        if (this.props.editingWidget == null)
+        if (this.props.editingWidgets == null || this.props.editingWidgets.length == 0)
             return (<div className='widget'/>);
 
-        let {panelStatus, styles} = this.props.editingWidget;
+        let editingWidget = this.props.editingWidgets[0];
+        let {panelStatus, styles} = editingWidget;
         return (
             <div className='widget'>
                 <div className='container'>
@@ -36,7 +33,7 @@ class Widget extends Component {
                             <Canvas panelStatus={panelStatus} styles={styles}/>
                         </CanvasBackground>
                         <div className="well">
-                            <Panel actions={actions} editingWidget={this.props.editingWidget}/>
+                            <Panel actions={actions} editingWidget={editingWidget}/>
                         </div>
                     </div>
                 </div>
@@ -50,17 +47,15 @@ export default createContainer(() => {
     if (Meteor.user()) {
         Meteor.subscribe('editingWidget', {
             onReady(){
-                let existing = EditingWidgets.findOne({userId: Meteor.userId()});
+                let existing = EditingWidgets.findOne({owner: Meteor.userId()});
                 if (existing == null) {
-                    let result= Meteor.call('editingWidgets.save', defaultProps);
+                    let result= Meteor.call('editingWidgets.create', DefaultWidget);
                 }
             }
         });
     }
-    let a = EditingWidgets.find({userId: Meteor.userId()}).fetch();
-    console.log(a)
     return {
-        editingWidget: EditingWidgets.find({userId: Meteor.userId()}).fetch(),
+        editingWidgets: EditingWidgets.find({owner: Meteor.userId()}).fetch(),
         currentUser: Meteor.user()
     };
 }, Widget);

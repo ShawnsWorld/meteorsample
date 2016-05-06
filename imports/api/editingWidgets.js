@@ -9,7 +9,6 @@ if (Meteor.isServer) {
     // This code only runs on the server
     Meteor.publish('editingWidget', () => {
         let editingWidget = EditingWidgets.find({userId: this.userId});
-        console.info(editingWidget.count())
         return editingWidget;
     });
 }
@@ -22,18 +21,17 @@ Meteor.methods({
         }
         return EditingWidgets.find({userId: userId});
     },
-    'editingWidgets.save'(editingWidget) {
+    'editingWidgets.create'(editingWidget) {
         check(editingWidget, Object);
 
         if (! Meteor.userId()) {
             throw new Meteor.Error('not-authorized');
         }
 
-        let result = EditingWidgets.upsert({owner: Meteor.userId()}, {
-            '$set': {panelStatus, styles} = editingWidget,
-            '$setOnInsert': {createdAt: new Date(), owner: Meteor.userId()}
-        }, (error, count)=>{
-        });
+        let a = Object.assign({}, {panelStatus, styles} = editingWidget, {createdAt: new Date(), owner: Meteor.userId()})
+        let result = EditingWidgets.insert(
+            Object.assign({}, {panelStatus, styles} = editingWidget, {createdAt: new Date(), owner: Meteor.userId()})
+        );
     },
     'editingWidgets.remove'(userId) {
         check(userId, String);
@@ -41,27 +39,3 @@ Meteor.methods({
         EditingWidgets.remove(userId);
     },
 });
-
-const defaultProps = Object.freeze(
-    {
-        panelStatus: {
-            border: {
-                selected: ['all']
-            }
-        },
-        styles: {
-            border: {
-                width: 1,
-                style: 'solid',
-                color: 'black'
-            },
-            borderRadius: {
-                ratio: 0,
-                unit: 'px',
-                value: 10
-            },
-            position: 'relative'
-        }
-    }
-);
-export default defaultProps;

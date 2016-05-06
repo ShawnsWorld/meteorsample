@@ -3,7 +3,14 @@ import {Checkbox} from 'react-bootstrap';
 import Switch from '/imports/ui/common/Switch';
 import Border from './panel/Border';
 
-export default class Panel extends Component {
+class Panel extends Component {
+    constructor(props) {
+        super(props);
+        this.getChildContext = this.getChildContext.bind(this);
+    }
+    getChildContext() {
+        return {widgetId: this.props.editingWidget._id};
+    }
     render() {
         let {panelStatus, styles} = this.props.editingWidget;
         return (
@@ -29,9 +36,14 @@ export default class Panel extends Component {
                     </div>
                 </div>
                 <div className='content'>
-                    <Border panelStatus={this.props.panelStatus} styles={this.props.styles} actions={this.props.actions.border}/>
+                    <Border status={panelStatus.border} styles={styles.border} actions={this.props.actions.border}/>
                 </div>
             </div>
         )
     }
 }
+Panel.childContextTypes = {
+    widgetId: React.PropTypes.string
+};
+
+export default Panel;

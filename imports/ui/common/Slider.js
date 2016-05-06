@@ -10,9 +10,8 @@ export default class extends React.Component {
     }
     onChange() {
         let value = findDOMNode(this.refs.range).value;
-        this.setState({value: value});
-        if (typeof this.props.onChange === 'function')
-            this.props.onChange(value);
+        if (typeof this.props.onSlide === 'function')
+            this.props.onSlide(value);
     }
     render() {
         let current = this.state.value;
@@ -21,7 +20,7 @@ export default class extends React.Component {
         return (
             <div className='slider'>
                 <div className='main' style={{width: 'calc(100% - ' + indicatorLength + 'em)'}}>
-                    <input ref='range' className='bar' value={current} type='range' onChange={this.onChange} {...this.props} />
+                    <input ref='range' className='bar' type='range' onChange={this.onChange} {...this.props} />
                     <span className='highlight'></span>
                 </div>
                 <div className='indicator' style={{width : indicatorLength + 'em'}}>{this.state.value}</div>

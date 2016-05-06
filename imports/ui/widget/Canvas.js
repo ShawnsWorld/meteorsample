@@ -24,6 +24,7 @@ class Canvas extends React.Component {
         let styles = replaceBorderRadius(this.props.styles);
         styles = replaceBorder(styles);
         let css = jssFunc.toPlainCss(styles);
+        console.log(css)
         findDOMNode(this.refs.target).setAttribute('style', css);
     }
     componentDidUpdate() {
