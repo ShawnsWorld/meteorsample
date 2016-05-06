@@ -3,7 +3,10 @@ const DefaultWidget = Object.freeze(
     {
         panelStatus: {
             border: {
-               selected: ['all','top','right','bottom','left']
+                selected: ['all', 'top', 'right', 'bottom', 'left']
+            },
+            borderRadius: {
+                selected: ['all', 'topLeft', 'topRight', 'bottomRight', 'bottomLeft']
             }
         },
         styles: {

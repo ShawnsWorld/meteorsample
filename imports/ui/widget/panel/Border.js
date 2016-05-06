@@ -114,7 +114,7 @@ class Border extends React.Component {
                         </Popover>
                     }>
                             <Button bsStyle='primary' bsSize='xsmall'
-                                    style={{background:'white'}}>颜色</Button>
+                                    style={{background:color}}>颜色</Button>
                         </OverlayTrigger>
                     </div>
                 </div>
