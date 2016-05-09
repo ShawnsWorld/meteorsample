@@ -47,6 +47,7 @@ const borderRadiusFunc = {
     return x + ' / ' + y;
   },
   convertRatioToString(ratio) {
+    console.log(ratio + 1)
     if (ratio === 0)
       return '1:1';
     return ratio < 0 ? '1:' + (-ratio + 1): (ratio + 1) + ':1';

@@ -4,7 +4,7 @@ import Widgets from '../common/Widgets';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { EditingWidgets } from '../../api/editingWidgets';
+import { EditingWidgets } from '/imports/api/editingWidgets';
 
 import actions from './actions';
 import DefaultWidget from './DefaultWidget';

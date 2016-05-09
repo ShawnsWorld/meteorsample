@@ -1,7 +1,8 @@
 'use strict';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {borderFunc, borderRadiusFunc, jssFunc} from '../../model'
+import {borderFunc, borderRadiusFunc, jssFunc} from '/imports/model'
+import MediumEditor from 'medium-editor';
 
 require('medium-editor/dist/css/medium-editor.css');
 require('medium-editor/dist/css/themes/default.css');
@@ -18,16 +19,17 @@ function replaceBorder(styles) {
 class Canvas extends React.Component {
     constructor(props){
         super(props)
-        this.state={text:''};
+        this.setStyle = this.setStyle.bind(this);
     }
     componentDidMount() {
-        let styles = replaceBorderRadius(this.props.styles);
-        styles = replaceBorder(styles);
-        let css = jssFunc.toPlainCss(styles);
-        console.log(css)
-        findDOMNode(this.refs.target).setAttribute('style', css);
+        var editor = new MediumEditor(findDOMNode(this.refs.target));
+        this.setState({editor: editor});
+        this.setStyle();
     }
     componentDidUpdate() {
+        this.setStyle();
+    }
+    setStyle() {
         let styles = replaceBorderRadius(this.props.styles);
         styles = replaceBorder(styles);
         let css = jssFunc.toPlainCss(styles);
@@ -35,7 +37,13 @@ class Canvas extends React.Component {
     }
     render() {
         return (
-            <div ref='target'></div>
+            <div className="editor-canvas" ref='target'>
+                <h3>标题</h3>
+                <p>
+                    内容
+                    内容
+                </p>
+            </div>
         );
     }
 }

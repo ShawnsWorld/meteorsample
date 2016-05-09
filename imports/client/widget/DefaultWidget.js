@@ -2,6 +2,10 @@
 const DefaultWidget = Object.freeze(
     {
         panelStatus: {
+            active: 'border',
+            general: {
+                selected: ['all', 'top', 'right', 'bottom', 'left']
+            },
             border: {
                 selected: ['all', 'top', 'right', 'bottom', 'left']
             },
@@ -45,17 +49,17 @@ const DefaultWidget = Object.freeze(
                     value: 10,
                 },
                 topRight: {
-                    ratio: 1,
+                    ratio: 0,
                     unit: 'px',
                     value: 10,
                 },
                 bottomRight: {
-                    ratio: 1,
+                    ratio: 0,
                     unit: 'px',
                     value: 10,
                 },
                 bottomLeft: {
-                    ratio: 1,
+                    ratio: 0,
                     unit: 'px',
                     value: 10,
                 }

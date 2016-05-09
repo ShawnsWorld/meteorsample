@@ -1,5 +1,5 @@
-import Widget from '/imports/ui/widget'
-import App from '/imports/ui/App'
+import Widget from '/imports/client/widget'
+import App from '/imports/client/App'
 
 export default routes = {
     path: '/',
